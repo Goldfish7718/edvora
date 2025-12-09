@@ -1,19 +1,31 @@
 // IMPORTS
-import express, { Request, Response } from 'express';
-import { config } from 'dotenv';
-import cors from 'cors';
+import express, { Request, Response } from "express";
+import { config } from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 config();
 
+// ROUTE IMPORTS
+import userRoutes from "./routes/user.routes";
+import courseRoutes from "./routes/course.routes";
+
+// CONFIG
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-//MIDDLEWARE
+// MIDDLEWARE
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Hello world' });
+// ROUTES
+app.use("/users", userRoutes);
+app.use("/courses", courseRoutes)
+
+// TEST ENDPOINT
+app.get("/", (req: Request, res: Response) => {
+  res.json({ message: "Hello world" });
 });
 
 // PORT LISTEN

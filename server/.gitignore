@@ -4,3 +4,5 @@ node_modules
 # REQUESTY DATA FILES
 data
 
+
+/src/generated/prisma

@@ -5,23 +5,36 @@
   "main": "index.js",
   "scripts": {
     "watch": "tsc --watch",
-    "dev": "nodemon dist/index.js"
+    "dev": "nodemon dist/index.js",
+
+    "db:user:reset": "ts-node ./scripts/user/resetUsers.ts",
+    "db:user:create": "ts-node ./scripts/user/createDefaultUser.ts",
+
+    "db:course:reset": "ts-node ./scripts/course/resetCourses.ts",
+    "db:course:create": "ts-node ./scripts/course/createDefaultCourse.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.23.0",
   "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.19.0"
+    "prisma": "^6.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5"
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "nodemon": "^3.1.11"
   }
 }
