@@ -4,13 +4,13 @@ const prisma = new PrismaClient();
 
 async function main() {
   const newUser = {
-    name: "Tejas Nanoti",
-    email: "tejasnanoti2@gmail.com",
+    name: "John Doe",
+    email: "johndoe@example.com",
     password: "12345",
   };
 
   await prisma.user.create({ data: newUser });
-  console.log("Created Default user Tejas Nanoti");
+  console.log("Created Default user John Doe");
 }
 
 main()
