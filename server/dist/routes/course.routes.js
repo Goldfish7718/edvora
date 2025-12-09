@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const course_controllers_1 = require("../controllers/course.controllers");
+const verifyToken_1 = require("../middleware/verifyToken");
+const verifyAdmin_1 = require("../middleware/verifyAdmin");
 const router = (0, express_1.Router)();
-router.post("/", course_controllers_1.createCourse);
-router.get("/", course_controllers_1.getCourses);
+router.post("/", verifyAdmin_1.verifyAdmin, course_controllers_1.createCourse);
+router.get("/", verifyToken_1.verifyToken, course_controllers_1.getCourses);
 exports.default = router;

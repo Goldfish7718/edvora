@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { createCourse, getCourses } from "../controllers/course.controllers";
+import { verifyToken } from "../middleware/verifyToken";
+import { verifyAdmin } from "../middleware/verifyAdmin";
 
-const router = Router()
+const router = Router();
 
-router.post("/", createCourse)
-router.get("/", getCourses)
+router.post("/", verifyAdmin, createCourse);
+router.get("/", verifyToken, getCourses);
 
-export default router
+export default router;

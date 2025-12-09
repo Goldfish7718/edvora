@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_controllers_1 = require("../controllers/user.controllers");
+const verifyAdmin_1 = require("../middleware/verifyAdmin");
 const router = (0, express_1.Router)();
-router.get("/", user_controllers_1.getUsers);
+router.get("/", verifyAdmin_1.verifyAdmin, user_controllers_1.getUsers);
 router.post("/", user_controllers_1.createUser);
 router.post("/login", user_controllers_1.login);
 exports.default = router;
