@@ -22,7 +22,6 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                 message: "Unauthenticated",
                 isAuthenticated: false,
             });
-        token = token.split(" ")[1];
         const decode = jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRET}`);
         req.decode = decode;
         next();

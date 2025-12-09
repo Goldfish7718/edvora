@@ -22,7 +22,6 @@ const verifyAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                 message: "No Token",
                 isAuthenticated: false,
             });
-        token = token.split(" ")[1];
         const decode = jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRET}`);
         if (decode.role !== "ADMIN")
             return res.status(403).json({

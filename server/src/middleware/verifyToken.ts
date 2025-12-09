@@ -24,8 +24,6 @@ export const verifyToken = async (
         isAuthenticated: false,
       });
 
-    token = token.split(" ")[1];
-
     const decode = jwt.verify(token, `${process.env.JWT_SECRET}`);
 
     req.decode = decode as ExtendedRequest["decode"];
