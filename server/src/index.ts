@@ -9,6 +9,7 @@ config();
 // ROUTE IMPORTS
 import userRoutes from "./routes/user.routes";
 import courseRoutes from "./routes/course.routes";
+import enrolmentRoutes from "./routes/enrolment.routes";
 
 // CONFIG
 const app = express();
@@ -21,7 +22,8 @@ app.use(express.json());
 
 // ROUTES
 app.use("/users", userRoutes);
-app.use("/courses", courseRoutes)
+app.use("/courses", courseRoutes);
+app.use("/enrolments", enrolmentRoutes);
 
 // TEST ENDPOINT
 app.get("/", (req: Request, res: Response) => {

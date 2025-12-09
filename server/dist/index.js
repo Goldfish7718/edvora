@@ -12,6 +12,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 // ROUTE IMPORTS
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const course_routes_1 = __importDefault(require("./routes/course.routes"));
+const enrolment_routes_1 = __importDefault(require("./routes/enrolment.routes"));
 // CONFIG
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ app.use(express_1.default.json());
 // ROUTES
 app.use("/users", user_routes_1.default);
 app.use("/courses", course_routes_1.default);
+app.use("/enrolments", enrolment_routes_1.default);
 // TEST ENDPOINT
 app.get("/", (req, res) => {
     res.json({ message: "Hello world" });
