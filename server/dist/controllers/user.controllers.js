@@ -49,7 +49,7 @@ exports.login = (0, createController_1.default)((req, res) => __awaiter(void 0, 
             secure: false,
             sameSite: "lax",
         })
-            .json({ message: "Logged in" });
+            .json({ message: "Logged in", user: payload });
     }
     catch (error) {
         console.log(error);
@@ -123,7 +123,7 @@ exports.createUser = (0, createController_1.default)((req, res) => __awaiter(voi
             secure: false,
             sameSite: "lax",
         })
-            .json({ message: "Account created successfully" });
+            .json({ message: "Account created successfully", user: newUser });
     }
     catch (error) {
         console.log(error);

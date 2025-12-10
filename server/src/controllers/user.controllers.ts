@@ -49,7 +49,7 @@ export const login = createController(async (req, res): Promise<any> => {
         secure: false,
         sameSite: "lax",
       })
-      .json({ message: "Logged in" });
+      .json({ message: "Logged in", user: payload });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -139,7 +139,7 @@ export const createUser = createController(async (req, res): Promise<any> => {
         secure: false,
         sameSite: "lax",
       })
-      .json({ message: "Account created successfully" });
+      .json({ message: "Account created successfully", user: newUser });
   } catch (error) {
     console.log(error);
     if (error instanceof ZodError) {

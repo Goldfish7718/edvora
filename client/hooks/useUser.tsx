@@ -1,4 +1,5 @@
 import { apiInstance } from "@/config";
+import { useAuth } from "@/context/authContext";
 import { toast } from "sonner";
 
 type UseUserReturns = {
@@ -6,6 +7,8 @@ type UseUserReturns = {
 };
 
 export default function useUser(): UseUserReturns {
+  const { setUser } = useAuth();
+
   const requestLogin = async (email: string, password: string) => {
     try {
       const res = await apiInstance.post("/users/login", {
@@ -16,6 +19,7 @@ export default function useUser(): UseUserReturns {
       });
 
       console.log(res.data);
+      setUser(res.data.user);
       toast("Login successful");
     } catch (error) {
       console.log(error);
