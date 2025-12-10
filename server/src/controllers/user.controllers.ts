@@ -52,7 +52,7 @@ export const login = createController(async (req, res): Promise<any> => {
       .json({ message: "Logged in" });
   } catch (error) {
     console.log(error);
-    res.json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -62,7 +62,7 @@ export const getUsers = createController(async (req, res): Promise<any> => {
     res.json({ users });
   } catch (error) {
     console.log(error);
-    res.json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -89,7 +89,7 @@ export const getUser = createController(async (req, res): Promise<any> => {
     res.json({ user });
   } catch (error) {
     console.log(error);
-    res.json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -145,6 +145,6 @@ export const createUser = createController(async (req, res): Promise<any> => {
     if (error instanceof ZodError) {
       res.status(400).json({ error });
     }
-    res.json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });

@@ -53,7 +53,7 @@ exports.login = (0, createController_1.default)((req, res) => __awaiter(void 0, 
     }
     catch (error) {
         console.log(error);
-        res.json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));
 exports.getUsers = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -63,7 +63,7 @@ exports.getUsers = (0, createController_1.default)((req, res) => __awaiter(void 
     }
     catch (error) {
         console.log(error);
-        res.json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));
 exports.getUser = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -87,7 +87,7 @@ exports.getUser = (0, createController_1.default)((req, res) => __awaiter(void 0
     }
     catch (error) {
         console.log(error);
-        res.json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));
 exports.createUser = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -130,6 +130,6 @@ exports.createUser = (0, createController_1.default)((req, res) => __awaiter(voi
         if (error instanceof zod_1.ZodError) {
             res.status(400).json({ error });
         }
-        res.json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));

@@ -61,7 +61,7 @@ exports.createEnrolment = (0, createController_1.default)((req, res) => __awaite
     }
     catch (error) {
         console.log(error);
-        res.json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));
 exports.deleteEnrolment = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -93,6 +93,6 @@ exports.deleteEnrolment = (0, createController_1.default)((req, res) => __awaite
         if (error instanceof zod_1.ZodError) {
             res.status(400).json({ error });
         }
-        res.json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));

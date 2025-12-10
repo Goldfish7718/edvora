@@ -51,7 +51,7 @@ export const createEnrolment = createController(
       res.status(201).json({ enrolment });
     } catch (error) {
       console.log(error);
-      res.json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 );
@@ -89,7 +89,7 @@ export const deleteEnrolment = createController(
       if (error instanceof ZodError) {
         res.status(400).json({ error });
       }
-      res.json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 );
