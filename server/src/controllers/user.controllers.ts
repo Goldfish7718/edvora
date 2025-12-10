@@ -151,7 +151,7 @@ export const createUser = createController(async (req, res): Promise<any> => {
   }
 });
 
-export const getCurrentUser = async (req: ExtendedRequest, res: Response) => {
+export const getCurrentUser = createController(async (req, res) => {
   const user = req.decode;
   res.status(200).json({ user });
-};
+});

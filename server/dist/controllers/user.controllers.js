@@ -133,8 +133,7 @@ exports.createUser = (0, createController_1.default)((req, res) => __awaiter(voi
         res.status(500).json({ message: "Internal Server Error" });
     }
 }));
-const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCurrentUser = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.decode;
     res.status(200).json({ user });
-});
-exports.getCurrentUser = getCurrentUser;
+}));

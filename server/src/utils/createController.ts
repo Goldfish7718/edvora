@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
+import { ExtendedRequest } from "../middleware/verifyToken";
 
-type Controller<TReq = Request, TRes = Response> = (
+type Controller<TReq = ExtendedRequest, TRes = Response> = (
   req: TReq,
   res: TRes,
   next: NextFunction
 ) => void | Promise<void>;
 
-const createController = <TReq = Request, TRes = Response>(
+const createController = <TReq = ExtendedRequest, TRes = Response>(
   controllerFn: Controller<TReq, TRes>
 ) => {
   return (req: TReq, res: TRes, next: NextFunction) => {

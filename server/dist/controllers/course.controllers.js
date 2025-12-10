@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCourses = exports.createCourse = void 0;
+exports.getCourse = exports.getCourses = exports.createCourse = void 0;
 const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const course_model_1 = require("../models/course.model");
@@ -37,6 +37,34 @@ exports.getCourses = (0, createController_1.default)((req, res) => __awaiter(voi
     try {
         const courses = yield prisma.course.findMany();
         res.json({ courses });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({ message: "Internal server error" });
+    }
+}));
+exports.getCourse = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const { id: idString } = req.params;
+        const courseId = parseInt(idString);
+        const course = yield prisma.course.findUnique({ where: { id: courseId } });
+        const enrolment = yield prisma.enrolment.findUnique({
+            where: {
+                userId_courseId: {
+                    userId: (_a = req.decode) === null || _a === void 0 ? void 0 : _a.id,
+                    courseId,
+                },
+            },
+        });
+        if (!course)
+            res.status(404).json({ message: "Course not found" });
+        let newCourse;
+        if (!enrolment)
+            newCourse = Object.assign(Object.assign({}, course), { isEnrolled: false });
+        else
+            newCourse = Object.assign(Object.assign({}, course), { isEnrolled: true });
+        res.status(200).json({ course: newCourse });
     }
     catch (error) {
         console.log(error);

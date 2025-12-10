@@ -7,4 +7,5 @@ const verifyAdmin_1 = require("../middleware/verifyAdmin");
 const router = (0, express_1.Router)();
 router.post("/", verifyAdmin_1.verifyAdmin, course_controllers_1.createCourse);
 router.get("/", verifyToken_1.verifyToken, course_controllers_1.getCourses);
+router.get("/:id", verifyToken_1.verifyToken, course_controllers_1.getCourse);
 exports.default = router;

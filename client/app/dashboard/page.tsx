@@ -43,7 +43,10 @@ export default function Dashboard() {
                 <CourseSkeleton key={i} />
               ))
             : courses.map((course) => (
-                <Link key={course.id} href={`#`} className="cursor-pointer">
+                <Link
+                  key={course.id}
+                  href={`/courses/${course.id}`}
+                  className="cursor-pointer">
                   <CourseCard
                     title={course.title}
                     description={course.description}

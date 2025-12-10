@@ -3,6 +3,7 @@ import { toast } from "sonner";
 
 type UseCourseReturns = {
   requestGetCourses: () => Promise<Course[] | undefined>;
+  requestGetCourse: (id: number) => Promise<Course | undefined>;
 };
 
 export type Course = {
@@ -26,8 +27,20 @@ const useCourse = (): UseCourseReturns => {
     }
   };
 
+  const requestGetCourse = async (id: number) => {
+    try {
+      const res = await apiInstance.get(`/courses/${id}`);
+      return res.data.course as Course;
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occured while fetching course");
+      return undefined;
+    }
+  };
+
   const hooks = {
     requestGetCourses,
+    requestGetCourse,
   };
 
   return hooks;
