@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 type UseUserReturns = {
   requestLogin: (email: string, password: string) => void;
+  requestSignUp: (name: string, email: string, password: string) => void;
 };
 
 export default function useUser(): UseUserReturns {
@@ -27,8 +28,32 @@ export default function useUser(): UseUserReturns {
     }
   };
 
+  const requestSignUp = async (
+    name: string,
+    email: string,
+    password: string
+  ) => {
+    try {
+      const res = await apiInstance.post("/users", {
+        user: {
+          name,
+          email,
+          password,
+        },
+      });
+
+      console.log(res.data);
+      setUser(res.data.user);
+      toast("Sign up successful");
+    } catch (error) {
+      console.log(error);
+      toast("An error occured");
+    }
+  };
+
   const hooks = {
     requestLogin,
+    requestSignUp,
   };
 
   return hooks;

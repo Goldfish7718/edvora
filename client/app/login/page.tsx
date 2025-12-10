@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,8 +21,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] py-20">
           <Card className="w-full max-w-md">
