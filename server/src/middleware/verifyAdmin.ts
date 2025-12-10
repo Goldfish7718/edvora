@@ -1,4 +1,3 @@
-import createController from "../utils/createController";
 import { ExtendedRequest } from "./verifyToken";
 import jwt from "jsonwebtoken";
 
@@ -12,7 +11,7 @@ export const verifyAdmin = async (
 
     if (!token)
       return res.status(401).json({
-        message: "No Token",
+        message: "Unauthenticated",
         isAuthenticated: false,
       });
 

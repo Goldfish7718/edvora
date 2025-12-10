@@ -19,7 +19,7 @@ const verifyAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         let { token } = req.cookies;
         if (!token)
             return res.status(401).json({
-                message: "No Token",
+                message: "Unauthenticated",
                 isAuthenticated: false,
             });
         const decode = jsonwebtoken_1.default.verify(token, `${process.env.JWT_SECRET}`);

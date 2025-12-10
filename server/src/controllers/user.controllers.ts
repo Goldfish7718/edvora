@@ -66,6 +66,33 @@ export const getUsers = createController(async (req, res): Promise<any> => {
   }
 });
 
+export const getUser = createController(async (req, res): Promise<any> => {
+  try {
+    const { id: idString } = req.params;
+    const id = parseInt(idString);
+
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      res.status(404).json({ message: "User does not exist" });
+    }
+
+    res.json({ user });
+  } catch (error) {
+    console.log(error);
+    res.json({ message: "Internal Server Error" });
+  }
+});
+
 export const createUser = createController(async (req, res): Promise<any> => {
   try {
     let { user }: { user: UserType } = req.body;

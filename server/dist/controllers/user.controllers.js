@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = exports.getUsers = exports.login = void 0;
+exports.createUser = exports.getUser = exports.getUsers = exports.login = void 0;
 const client_1 = require("@prisma/client");
 const user_model_1 = require("../models/user.model");
 const createController_1 = __importDefault(require("../utils/createController"));
@@ -60,6 +60,30 @@ exports.getUsers = (0, createController_1.default)((req, res) => __awaiter(void 
     try {
         const users = yield prisma.user.findMany();
         res.json({ users });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({ message: "Internal Server Error" });
+    }
+}));
+exports.getUser = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id: idString } = req.params;
+        const id = parseInt(idString);
+        const user = yield prisma.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                createdAt: true,
+            },
+        });
+        if (!user) {
+            res.status(404).json({ message: "User does not exist" });
+        }
+        res.json({ user });
     }
     catch (error) {
         console.log(error);
