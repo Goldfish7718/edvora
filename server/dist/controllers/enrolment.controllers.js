@@ -51,12 +51,20 @@ exports.createEnrolment = (0, createController_1.default)((req, res) => __awaite
                 .status(404)
                 .json({ message: "The course or user does not exist" });
         }
-        const enrolment = yield prisma.enrolment.create({
-            data: {
-                userId,
-                courseId,
-            },
-        });
+        const [enrolment] = yield prisma.$transaction([
+            prisma.enrolment.create({
+                data: {
+                    userId,
+                    courseId,
+                },
+            }),
+            prisma.course.update({
+                where: { id: courseId },
+                data: {
+                    enrolmentCount: { increment: 1 },
+                },
+            }),
+        ]);
         res.status(201).json({ enrolment });
     }
     catch (error) {
@@ -78,14 +86,22 @@ exports.deleteEnrolment = (0, createController_1.default)((req, res) => __awaite
         if (!existingEnrolment) {
             return res.status(404).json({ message: "Enrolment not found" });
         }
-        yield prisma.enrolment.delete({
-            where: {
-                userId_courseId: {
-                    userId,
-                    courseId,
+        yield prisma.$transaction([
+            prisma.enrolment.delete({
+                where: {
+                    userId_courseId: {
+                        userId,
+                        courseId,
+                    },
                 },
-            },
-        });
+            }),
+            prisma.course.update({
+                where: { id: courseId },
+                data: {
+                    enrolmentCount: { decrement: 1 },
+                },
+            }),
+        ]);
         res.status(200).json({ message: "Enrolment deleted successfully" });
     }
     catch (error) {

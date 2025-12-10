@@ -41,12 +41,20 @@ export const createEnrolment = createController(
           .json({ message: "The course or user does not exist" });
       }
 
-      const enrolment = await prisma.enrolment.create({
-        data: {
-          userId,
-          courseId,
-        },
-      });
+      const [enrolment] = await prisma.$transaction([
+        prisma.enrolment.create({
+          data: {
+            userId,
+            courseId,
+          },
+        }),
+        prisma.course.update({
+          where: { id: courseId },
+          data: {
+            enrolmentCount: { increment: 1 },
+          },
+        }),
+      ]);
 
       res.status(201).json({ enrolment });
     } catch (error) {
@@ -74,14 +82,22 @@ export const deleteEnrolment = createController(
         return res.status(404).json({ message: "Enrolment not found" });
       }
 
-      await prisma.enrolment.delete({
-        where: {
-          userId_courseId: {
-            userId,
-            courseId,
+      await prisma.$transaction([
+        prisma.enrolment.delete({
+          where: {
+            userId_courseId: {
+              userId,
+              courseId,
+            },
           },
-        },
-      });
+        }),
+        prisma.course.update({
+          where: { id: courseId },
+          data: {
+            enrolmentCount: { decrement: 1 },
+          },
+        }),
+      ]);
 
       res.status(200).json({ message: "Enrolment deleted successfully" });
     } catch (error) {
