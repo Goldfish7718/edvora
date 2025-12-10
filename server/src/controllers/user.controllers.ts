@@ -47,7 +47,7 @@ export const login = createController(async (req, res): Promise<any> => {
       .cookie("token", token, {
         httpOnly: true,
         secure: false,
-        sameSite: "none",
+        sameSite: "lax",
       })
       .json({ message: "Logged in" });
   } catch (error) {
@@ -137,7 +137,7 @@ export const createUser = createController(async (req, res): Promise<any> => {
       .cookie("token", token, {
         httpOnly: true,
         secure: false,
-        sameSite: "none",
+        sameSite: "lax",
       })
       .json({ message: "Account created successfully" });
   } catch (error) {

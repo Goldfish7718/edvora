@@ -47,7 +47,7 @@ exports.login = (0, createController_1.default)((req, res) => __awaiter(void 0, 
             .cookie("token", token, {
             httpOnly: true,
             secure: false,
-            sameSite: "none",
+            sameSite: "lax",
         })
             .json({ message: "Logged in" });
     }
@@ -121,7 +121,7 @@ exports.createUser = (0, createController_1.default)((req, res) => __awaiter(voi
             .cookie("token", token, {
             httpOnly: true,
             secure: false,
-            sameSite: "none",
+            sameSite: "lax",
         })
             .json({ message: "Account created successfully" });
     }
