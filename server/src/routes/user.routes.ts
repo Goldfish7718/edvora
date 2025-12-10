@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createUser,
+  getCurrentUser,
   getUser,
   getUsers,
   login,
@@ -11,7 +12,9 @@ import { verifyToken } from "../middleware/verifyToken";
 const router = Router();
 
 router.get("/", verifyAdmin, getUsers);
+router.get("/current", verifyToken, getCurrentUser);
 router.get("/:id", verifyToken, getUser);
+
 router.post("/", createUser);
 router.post("/login", login);
 

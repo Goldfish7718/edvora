@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = exports.getUser = exports.getUsers = exports.login = void 0;
+exports.getCurrentUser = exports.createUser = exports.getUser = exports.getUsers = exports.login = void 0;
 const client_1 = require("@prisma/client");
 const user_model_1 = require("../models/user.model");
 const createController_1 = __importDefault(require("../utils/createController"));
@@ -133,3 +133,8 @@ exports.createUser = (0, createController_1.default)((req, res) => __awaiter(voi
         res.status(500).json({ message: "Internal Server Error" });
     }
 }));
+const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.decode;
+    res.status(200).json({ user });
+});
+exports.getCurrentUser = getCurrentUser;

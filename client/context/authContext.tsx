@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import useUser from "@/hooks/useUser";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type AuthContextProps = {
   children: React.ReactNode;

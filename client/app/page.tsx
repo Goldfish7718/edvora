@@ -1,12 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <section className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-20">
           <div className="text-center space-y-6 w-full max-w-2xl">

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request } from "express";
 
 export interface ExtendedRequest extends Request {
-  decode: {
+  decode?: {
     id: number;
     name: string;
     email: string;

@@ -9,6 +9,8 @@ import createController from "../utils/createController";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken";
 import { ZodError } from "zod";
+import { ExtendedRequest } from "../middleware/verifyToken";
+import { Response } from "express";
 
 const prisma = new PrismaClient();
 
@@ -148,3 +150,8 @@ export const createUser = createController(async (req, res): Promise<any> => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+export const getCurrentUser = async (req: ExtendedRequest, res: Response) => {
+  const user = req.decode;
+  res.status(200).json({ user });
+};

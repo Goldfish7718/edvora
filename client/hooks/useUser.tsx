@@ -5,6 +5,7 @@ import { toast } from "sonner";
 type UseUserReturns = {
   requestLogin: (email: string, password: string) => void;
   requestSignUp: (name: string, email: string, password: string) => void;
+  requestCurrentUser: () => void;
 };
 
 export default function useUser(): UseUserReturns {
@@ -51,9 +52,19 @@ export default function useUser(): UseUserReturns {
     }
   };
 
+  const requestCurrentUser = async () => {
+    try {
+      const res = await apiInstance.get("/users/current");
+      setUser(res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const hooks = {
     requestLogin,
     requestSignUp,
+    requestCurrentUser,
   };
 
   return hooks;
