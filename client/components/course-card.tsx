@@ -11,7 +11,7 @@ interface CourseCardProps {
   title: string;
   description: string;
   instructor: string;
-  students: number;
+  enrolmentCount: number;
   rating: number;
   category: string;
 }
@@ -20,7 +20,7 @@ export function CourseCard({
   title,
   description,
   instructor,
-  students,
+  enrolmentCount,
   rating,
   category,
 }: CourseCardProps) {
@@ -45,7 +45,7 @@ export function CourseCard({
             <span className="text-muted-foreground">⭐</span>
           </div>
           <span className="text-sm text-muted-foreground">
-            {students.toLocaleString()} students
+            {enrolmentCount.toLocaleString()} students
           </span>
         </div>
       </CardContent>

@@ -7,4 +7,5 @@ exports.courseSchema = zod_1.z.object({
     description: zod_1.z.string().max(500).min(10),
     instructor: zod_1.z.string(),
     enrolmentCount: zod_1.z.number().default(0),
+    category: zod_1.z.string(),
 });

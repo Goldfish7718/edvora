@@ -21,10 +21,10 @@ export default function useUser(): UseUserReturns {
 
       console.log(res.data);
       setUser(res.data.user);
-      toast("Login successful");
+      toast.success("Login successful");
     } catch (error) {
       console.log(error);
-      toast("An error occured");
+      toast.error("An error occured");
     }
   };
 
@@ -44,10 +44,10 @@ export default function useUser(): UseUserReturns {
 
       console.log(res.data);
       setUser(res.data.user);
-      toast("Sign up successful");
+      toast.success("Sign up successful");
     } catch (error) {
       console.log(error);
-      toast("An error occured");
+      toast.error("An error occured");
     }
   };
 

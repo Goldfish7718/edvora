@@ -5,6 +5,7 @@ export const courseSchema = z.object({
   description: z.string().max(500).min(10),
   instructor: z.string(),
   enrolmentCount: z.number().default(0),
+  category: z.string(),
 });
 
 export type CourseType = z.infer<typeof courseSchema>;

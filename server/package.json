@@ -11,7 +11,8 @@
     "db:user:create": "ts-node ./scripts/user/createDefaultUser.ts",
 
     "db:course:reset": "ts-node ./scripts/course/resetCourses.ts",
-    "db:course:create": "ts-node ./scripts/course/createDefaultCourse.ts"
+    "db:course:create": "ts-node ./scripts/course/createDefaultCourse.ts",
+    "db:course:multiple": "ts-node ./scripts/course/createMultipleCourses.ts"
   },
   "keywords": [],
   "author": "",

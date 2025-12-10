@@ -30,6 +30,7 @@ model Course {
   description     String
   instructor      String
   enrolmentCount  Int       @default(0)
+  category        String
 
   enrolments Enrolment[]
 }
