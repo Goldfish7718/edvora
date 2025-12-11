@@ -19,7 +19,7 @@ export const createCourse = createController(async (req, res) => {
     if (error instanceof ZodError) {
       res.status(400).json({ error });
     }
-    res.json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -29,7 +29,7 @@ export const getCourses = createController(async (req, res) => {
     res.json({ courses });
   } catch (error) {
     console.log(error);
-    res.json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -66,6 +66,41 @@ export const getCourse = createController(async (req, res) => {
     res.status(200).json({ course: newCourse });
   } catch (error) {
     console.log(error);
-    res.json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+export const getProfileData = createController(async (req, res) => {
+  try {
+    const { userId: userIdString } = req.params;
+    const userId = parseInt(userIdString);
+
+    const profileData = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        enrolments: {
+          select: {
+            course: true,
+          },
+        },
+      },
+    });
+
+    const flatEnrollments = profileData?.enrolments.map((e) => e.course);
+
+    const profile = {
+      ...profileData,
+      enrolments: flatEnrollments,
+    };
+
+    res.status(200).json({ profile });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });

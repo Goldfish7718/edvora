@@ -1,11 +1,14 @@
+import { ProfileDataType } from "@/app/profile/page";
 import { apiInstance } from "@/config";
 import { useAuth } from "@/context/authContext";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type UseUserReturns = {
   requestLogin: (email: string, password: string) => void;
   requestSignUp: (name: string, email: string, password: string) => void;
   requestCurrentUser: () => void;
+  requestProfileData: (userId: number) => Promise<ProfileDataType | null>;
 };
 
 export default function useUser(): UseUserReturns {
@@ -61,10 +64,21 @@ export default function useUser(): UseUserReturns {
     }
   };
 
+  const requestProfileData = async (userId: number) => {
+    try {
+      const res = await apiInstance.get(`/users/profile/${userId}`);
+      return res.data.profile as ProfileDataType;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
   const hooks = {
     requestLogin,
     requestSignUp,
     requestCurrentUser,
+    requestProfileData,
   };
 
   return hooks;

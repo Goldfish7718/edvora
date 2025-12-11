@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCourse = exports.getCourses = exports.createCourse = void 0;
+exports.getProfileData = exports.getCourse = exports.getCourses = exports.createCourse = void 0;
 const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const course_model_1 = require("../models/course.model");
@@ -30,7 +30,7 @@ exports.createCourse = (0, createController_1.default)((req, res) => __awaiter(v
         if (error instanceof zod_1.ZodError) {
             res.status(400).json({ error });
         }
-        res.json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 }));
 exports.getCourses = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,7 +40,7 @@ exports.getCourses = (0, createController_1.default)((req, res) => __awaiter(voi
     }
     catch (error) {
         console.log(error);
-        res.json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 }));
 exports.getCourse = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -68,6 +68,34 @@ exports.getCourse = (0, createController_1.default)((req, res) => __awaiter(void
     }
     catch (error) {
         console.log(error);
-        res.json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
+    }
+}));
+exports.getProfileData = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId: userIdString } = req.params;
+        const userId = parseInt(userIdString);
+        const profileData = yield prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                createdAt: true,
+                enrolments: {
+                    select: {
+                        course: true,
+                    },
+                },
+            },
+        });
+        const flatEnrollments = profileData === null || profileData === void 0 ? void 0 : profileData.enrolments.map((e) => e.course);
+        const profile = Object.assign(Object.assign({}, profileData), { enrolments: flatEnrollments });
+        res.status(200).json({ profile });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }));
