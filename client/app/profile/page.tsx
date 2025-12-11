@@ -25,15 +25,7 @@ import {
 import useUser from "@/hooks/useUser";
 import { useAuth } from "@/context/authContext";
 import { toast } from "sonner";
-
-export type CourseDataType = {
-  id: number;
-  title: string;
-  description: string;
-  instructor: string;
-  enrolmentCount: number;
-  category: string;
-};
+import { CourseType } from "@/hooks/useCourse";
 
 export type ProfileDataType = {
   id: number;
@@ -41,7 +33,7 @@ export type ProfileDataType = {
   email: string;
   role: "ADMIN" | "STUDENT";
   createdAt: string | Date;
-  enrolments: CourseDataType[];
+  enrolments: CourseType[];
 };
 
 export default function ProfilePage() {

@@ -6,10 +6,10 @@ import {
   getUsers,
   login,
   logout,
+  getProfileData,
 } from "../controllers/user.controllers";
 import { verifyAdmin } from "../middleware/verifyAdmin";
 import { verifyToken } from "../middleware/verifyToken";
-import { getProfileData } from "../controllers/course.controllers";
 
 const router = Router();
 

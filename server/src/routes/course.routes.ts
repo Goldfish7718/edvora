@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createCourse,
+  deleteCourse,
   getCourse,
   getCourses,
 } from "../controllers/course.controllers";
@@ -13,5 +14,6 @@ router.post("/", verifyAdmin, createCourse);
 
 router.get("/", verifyToken, getCourses);
 router.get("/:id", verifyToken, getCourse);
+router.delete("/:id", verifyAdmin, deleteCourse);
 
 export default router;

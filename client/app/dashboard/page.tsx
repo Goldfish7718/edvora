@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { CourseCard } from "@/components/course-card";
 import { CourseSkeleton } from "@/components/course-skeleton";
-import useCourse, { type Course } from "@/hooks/useCourse";
+import useCourse, { type CourseType } from "@/hooks/useCourse";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<CourseType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const { requestGetCourses } = useCourse();

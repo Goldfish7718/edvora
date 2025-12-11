@@ -1,3 +1,4 @@
+import { UserType } from "@/app/admin/page";
 import { ProfileDataType } from "@/app/profile/page";
 import { apiInstance } from "@/config";
 import { useAuth } from "@/context/authContext";
@@ -10,6 +11,7 @@ type UseUserReturns = {
   requestCurrentUser: () => void;
   requestProfileData: (userId: number) => Promise<ProfileDataType | null>;
   requestLogout: () => void;
+  requestUsers: () => Promise<UserType[] | null>;
 };
 
 export default function useUser(): UseUserReturns {
@@ -90,12 +92,24 @@ export default function useUser(): UseUserReturns {
     }
   };
 
+  const requestUsers = async () => {
+    try {
+      const res = await apiInstance.get("/users");
+      return res.data.users as UserType[];
+    } catch (error) {
+      console.log(error);
+      toast.error("Error Fetching users");
+      return null;
+    }
+  };
+
   const hooks = {
     requestLogin,
     requestSignUp,
     requestCurrentUser,
     requestProfileData,
     requestLogout,
+    requestUsers,
   };
 
   return hooks;

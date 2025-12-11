@@ -70,35 +70,17 @@ export const getCourse = createController(async (req, res) => {
   }
 });
 
-export const getProfileData = createController(async (req, res) => {
+export const deleteCourse = createController(async (req, res) => {
   try {
-    const { userId: userIdString } = req.params;
-    const userId = parseInt(userIdString);
+    const { id: idString } = req.params;
+    const id = parseInt(idString);
 
-    const profileData = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-        enrolments: {
-          select: {
-            course: true,
-          },
-        },
-      },
-    });
+    await prisma.$transaction([
+      prisma.enrolment.deleteMany({ where: { courseId: id } }),
+      prisma.course.delete({ where: { id } }),
+    ]);
 
-    const flatEnrollments = profileData?.enrolments.map((e) => e.course);
-
-    const profile = {
-      ...profileData,
-      enrolments: flatEnrollments,
-    };
-
-    res.status(200).json({ profile });
+    res.status(200).json({ message: "Course deleted successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });

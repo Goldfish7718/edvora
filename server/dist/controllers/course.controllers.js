@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProfileData = exports.getCourse = exports.getCourses = exports.createCourse = void 0;
+exports.deleteCourse = exports.getCourse = exports.getCourses = exports.createCourse = void 0;
 const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const course_model_1 = require("../models/course.model");
@@ -71,28 +71,15 @@ exports.getCourse = (0, createController_1.default)((req, res) => __awaiter(void
         res.status(500).json({ message: "Internal server error" });
     }
 }));
-exports.getProfileData = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteCourse = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId: userIdString } = req.params;
-        const userId = parseInt(userIdString);
-        const profileData = yield prisma.user.findUnique({
-            where: { id: userId },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-                createdAt: true,
-                enrolments: {
-                    select: {
-                        course: true,
-                    },
-                },
-            },
-        });
-        const flatEnrollments = profileData === null || profileData === void 0 ? void 0 : profileData.enrolments.map((e) => e.course);
-        const profile = Object.assign(Object.assign({}, profileData), { enrolments: flatEnrollments });
-        res.status(200).json({ profile });
+        const { id: idString } = req.params;
+        const id = parseInt(idString);
+        yield prisma.$transaction([
+            prisma.enrolment.deleteMany({ where: { courseId: id } }),
+            prisma.course.delete({ where: { id } }),
+        ]);
+        res.status(200).json({ message: "Course deleted successfully" });
     }
     catch (error) {
         console.log(error);

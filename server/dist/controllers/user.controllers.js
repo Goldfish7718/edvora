@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.getCurrentUser = exports.createUser = exports.getUser = exports.getUsers = exports.login = void 0;
+exports.getProfileData = exports.logout = exports.getCurrentUser = exports.createUser = exports.getUser = exports.getUsers = exports.login = void 0;
 const client_1 = require("@prisma/client");
 const user_model_1 = require("../models/user.model");
 const createController_1 = __importDefault(require("../utils/createController"));
@@ -144,5 +144,33 @@ exports.logout = (0, createController_1.default)((req, res) => __awaiter(void 0,
     catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Server Error" });
+    }
+}));
+exports.getProfileData = (0, createController_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId: userIdString } = req.params;
+        const userId = parseInt(userIdString);
+        const profileData = yield prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                createdAt: true,
+                enrolments: {
+                    select: {
+                        course: true,
+                    },
+                },
+            },
+        });
+        const flatEnrollments = profileData === null || profileData === void 0 ? void 0 : profileData.enrolments.map((e) => e.course);
+        const profile = Object.assign(Object.assign({}, profileData), { enrolments: flatEnrollments });
+        res.status(200).json({ profile });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }));

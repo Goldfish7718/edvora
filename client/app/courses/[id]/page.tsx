@@ -14,7 +14,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Check, CheckCircle2, UserPlus } from "lucide-react";
 import useEnrolment from "@/hooks/useEnrolment";
-import UnenrollDialogTrigger from "@/components/unenroll-dialog";
+import UnenrollDialogTrigger from "@/components/unenroll-trigger";
 
 export default function CoursePage() {
   const params = useParams();
