@@ -12,4 +12,5 @@ router.get("/profile/:userId", verifyToken_1.verifyToken, course_controllers_1.g
 router.get("/:id", verifyToken_1.verifyToken, user_controllers_1.getUser);
 router.post("/", user_controllers_1.createUser);
 router.post("/login", user_controllers_1.login);
+router.post("/logout", verifyToken_1.verifyToken, user_controllers_1.logout);
 exports.default = router;

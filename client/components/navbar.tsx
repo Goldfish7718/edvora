@@ -19,7 +19,7 @@ export function Navbar() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
-  const { requestCurrentUser } = useUser();
+  const { requestCurrentUser, requestLogout } = useUser();
 
   useEffect(() => {
     setMounted(true);
@@ -125,7 +125,9 @@ export function Navbar() {
                     </>
                   )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950 cursor-pointer hover:text-red-700">
+                  <DropdownMenuItem
+                    className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950 cursor-pointer hover:text-red-700"
+                    onClick={requestLogout}>
                     <LogOut className="w-4 h-4 mr-2" />
                     <span>Logout</span>
                   </DropdownMenuItem>

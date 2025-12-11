@@ -60,7 +60,7 @@ export default function ProfilePage() {
       setProfile(data);
     };
 
-    getProfile();
+    if (user) getProfile();
   }, [user]);
 
   return (

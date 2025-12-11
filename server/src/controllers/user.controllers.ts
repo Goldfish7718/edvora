@@ -9,8 +9,6 @@ import createController from "../utils/createController";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken";
 import { ZodError } from "zod";
-import { ExtendedRequest } from "../middleware/verifyToken";
-import { Response } from "express";
 
 const prisma = new PrismaClient();
 
@@ -154,4 +152,13 @@ export const createUser = createController(async (req, res): Promise<any> => {
 export const getCurrentUser = createController(async (req, res) => {
   const user = req.decode;
   res.status(200).json({ user });
+});
+
+export const logout = createController(async (req, res) => {
+  try {
+    res.clearCookie("token").json({ message: "Logged out" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });

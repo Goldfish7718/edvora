@@ -5,6 +5,7 @@ import {
   getUser,
   getUsers,
   login,
+  logout,
 } from "../controllers/user.controllers";
 import { verifyAdmin } from "../middleware/verifyAdmin";
 import { verifyToken } from "../middleware/verifyToken";
@@ -19,5 +20,6 @@ router.get("/:id", verifyToken, getUser);
 
 router.post("/", createUser);
 router.post("/login", login);
+router.post("/logout", verifyToken, logout);
 
 export default router;
