@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Check, CheckCircle2, UserPlus } from "lucide-react";
 import useEnrolment from "@/hooks/useEnrolment";
+import UnenrollDialogTrigger from "@/components/unenroll-dialog";
 
 export default function CoursePage() {
   const params = useParams();
@@ -22,7 +23,7 @@ export default function CoursePage() {
   const [course, setCourse] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { requestCreateEnrolment } = useEnrolment();
+  const { requestCreateEnrolment, requestDeleteEnrolment } = useEnrolment();
 
   const handleEnrolment = () => {
     if (!course.isEnrolled) {
@@ -152,10 +153,13 @@ export default function CoursePage() {
                   variant={course.isEnrolled ? "secondary" : "default"}
                   onClick={handleEnrolment}>
                   {course.isEnrolled ? (
-                    <>
-                      <Check />
-                      Enrolled
-                    </>
+                    <UnenrollDialogTrigger
+                      onConfirm={() => requestDeleteEnrolment(course.id)}>
+                      <div className="flex gap-2 items-center">
+                        <Check />
+                        Enrolled
+                      </div>
+                    </UnenrollDialogTrigger>
                   ) : (
                     <>
                       <UserPlus />
