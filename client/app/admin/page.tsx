@@ -135,7 +135,7 @@ export default function AdminPanel() {
                         <Tooltip key={c.id}>
                           <TooltipTrigger asChild>
                             <tr
-                              className="border-b last:border-b-0 hover:bg-neutral-100 hover:cursor-pointer"
+                              className="border-b last:border-b-0 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:cursor-pointer"
                               onClick={() => handleDelete(c.id)}>
                               <td className="py-2 text-sm">{c.id}</td>
                               <td className="py-2 text-sm wrap-break-words max-w-xs">
