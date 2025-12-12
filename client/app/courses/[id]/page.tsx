@@ -15,20 +15,37 @@ import { useEffect, useState } from "react";
 import { Check, CheckCircle2, UserPlus } from "lucide-react";
 import useEnrolment from "@/hooks/useEnrolment";
 import UnenrollDialogTrigger from "@/components/unenroll-trigger";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function CoursePage() {
   const params = useParams();
   const courseId = params.id as string;
-  const { requestGetCourse } = useCourse();
-  const [course, setCourse] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
+  const [course, setCourse] = useState<any>(null);
+
+  // LOADING STATES
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEnrolling, setisEnrolling] = useState(false);
+
+  const { requestGetCourse } = useCourse();
   const { requestCreateEnrolment, requestDeleteEnrolment } = useEnrolment();
 
-  const handleEnrolment = () => {
+  const handleEnrolment = async () => {
+    setisEnrolling(true);
     if (!course.isEnrolled) {
-      requestCreateEnrolment(parseInt(courseId));
+      await requestCreateEnrolment(parseInt(courseId));
     }
+    setisEnrolling(false);
+
+    const updatedCourse = await requestGetCourse(parseInt(courseId));
+    setCourse(updatedCourse);
+  };
+
+  const handleDeleteEnrollment = async () => {
+    await requestDeleteEnrolment(course.id);
+
+    const updatedCourse = await requestGetCourse(parseInt(courseId));
+    setCourse(updatedCourse);
   };
 
   useEffect(() => {
@@ -115,7 +132,6 @@ export default function CoursePage() {
 
         {/* Course Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Topics List */}
           <div className="md:col-span-2">
             <Card>
               <CardHeader>
@@ -147,26 +163,35 @@ export default function CoursePage() {
                 <p className="text-sm text-muted-foreground">
                   Start your learning journey today and master new skills
                 </p>
-                <Button
-                  className="w-full"
-                  size="lg"
-                  variant={course.isEnrolled ? "secondary" : "default"}
-                  onClick={handleEnrolment}>
-                  {course.isEnrolled ? (
-                    <UnenrollDialogTrigger
-                      onConfirm={() => requestDeleteEnrolment(course.id)}>
+                {course.isEnrolled && (
+                  <UnenrollDialogTrigger onConfirm={handleDeleteEnrollment}>
+                    <Button
+                      className="w-full"
+                      size="lg"
+                      variant={course.isEnrolled && "secondary"}>
                       <div className="flex gap-2 items-center">
                         <Check />
                         Enrolled
                       </div>
-                    </UnenrollDialogTrigger>
-                  ) : (
-                    <>
-                      <UserPlus />
-                      Enroll Now
-                    </>
-                  )}
-                </Button>
+                    </Button>
+                  </UnenrollDialogTrigger>
+                )}
+                {!course.isEnrolled && (
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    onClick={handleEnrolment}
+                    disabled={isEnrolling}>
+                    <UserPlus />
+                    {isEnrolling ? (
+                      <>
+                        <Spinner /> Enrolling
+                      </>
+                    ) : (
+                      <>Enroll Now</>
+                    )}
+                  </Button>
+                )}
                 <Button className="w-full bg-transparent" variant="outline">
                   Add to Wishlist
                 </Button>
