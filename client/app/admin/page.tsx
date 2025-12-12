@@ -22,8 +22,8 @@ export type UserType = {
 };
 
 export default function AdminPanel() {
-  const [users, setUsers] = useState<UserType[]>([]);
-  const [courses, setCourses] = useState<CourseType[]>([]);
+  const [users, setUsers] = useState<UserType[] | null>([]);
+  const [courses, setCourses] = useState<CourseType[] | null>([]);
 
   const { requestUsers } = useUser();
   const { requestGetCourses, requestCourseDelete } = useCourse();
@@ -39,7 +39,8 @@ export default function AdminPanel() {
         },
       });
 
-      setCourses((prev) => prev.filter((item) => item.id !== courseId));
+      const newCourses = await requestGetCourses();
+      setCourses(newCourses);
     } catch (err) {
       console.error("delete failed", err);
     }
@@ -88,22 +89,23 @@ export default function AdminPanel() {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((u) => (
-                      <tr key={u.id} className="border-b last:border-b-0">
-                        <td className="py-2 text-sm">{u.id}</td>
-                        <td className="py-2 text-sm">{u.name}</td>
-                        <td className="py-2 text-sm wrap-break-words">
-                          {u.email}
-                        </td>
-                        <td className="py-2 text-sm">{u.role}</td>
-                        <td className="py-2 text-sm">
-                          {new Date(u.createdAt).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
+                    {users &&
+                      users.map((u) => (
+                        <tr key={u.id} className="border-b last:border-b-0">
+                          <td className="py-2 text-sm">{u.id}</td>
+                          <td className="py-2 text-sm">{u.name}</td>
+                          <td className="py-2 text-sm wrap-break-words">
+                            {u.email}
+                          </td>
+                          <td className="py-2 text-sm">{u.role}</td>
+                          <td className="py-2 text-sm">
+                            {new Date(u.createdAt).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
-                {users.length === 0 && (
+                {users && users.length === 0 && (
                   <div className="mt-2 text-sm">No users found.</div>
                 )}
               </div>
@@ -128,30 +130,30 @@ export default function AdminPanel() {
                     </tr>
                   </thead>
                   <tbody>
-                    {courses.map((c) => (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <tr
-                            key={c.id}
-                            className="border-b last:border-b-0 hover:bg-neutral-100 hover:cursor-pointer"
-                            onClick={() => handleDelete(c.id)}>
-                            <td className="py-2 text-sm">{c.id}</td>
-                            <td className="py-2 text-sm wrap-break-words max-w-xs">
-                              {c.title}
-                            </td>
-                            <td className="py-2 text-sm">{c.instructor}</td>
-                            <td className="py-2 text-sm">
-                              {c.enrolmentCount.toLocaleString()}
-                            </td>
-                            <td className="py-2 text-sm">{c.category}</td>
-                          </tr>
-                        </TooltipTrigger>
-                        <TooltipContent>Click to delete</TooltipContent>
-                      </Tooltip>
-                    ))}
+                    {courses &&
+                      courses.map((c) => (
+                        <Tooltip key={c.id}>
+                          <TooltipTrigger asChild>
+                            <tr
+                              className="border-b last:border-b-0 hover:bg-neutral-100 hover:cursor-pointer"
+                              onClick={() => handleDelete(c.id)}>
+                              <td className="py-2 text-sm">{c.id}</td>
+                              <td className="py-2 text-sm wrap-break-words max-w-xs">
+                                {c.title}
+                              </td>
+                              <td className="py-2 text-sm">{c.instructor}</td>
+                              <td className="py-2 text-sm">
+                                {c.enrolmentCount.toLocaleString()}
+                              </td>
+                              <td className="py-2 text-sm">{c.category}</td>
+                            </tr>
+                          </TooltipTrigger>
+                          <TooltipContent>Click to delete</TooltipContent>
+                        </Tooltip>
+                      ))}
                   </tbody>
                 </table>
-                {courses.length === 0 && (
+                {courses && courses.length === 0 && (
                   <div className="mt-2 text-sm">No courses found.</div>
                 )}
               </div>

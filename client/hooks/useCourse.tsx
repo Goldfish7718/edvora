@@ -2,8 +2,8 @@ import { apiInstance } from "@/config";
 import { toast } from "sonner";
 
 type UseCourseReturns = {
-  requestGetCourses: () => Promise<CourseType[] | undefined>;
-  requestGetCourse: (id: number) => Promise<CourseType | undefined>;
+  requestGetCourses: () => Promise<CourseType[] | null>;
+  requestGetCourse: (id: number) => Promise<CourseType | null>;
   requestAddCourse: (
     title: string,
     description: string,
@@ -30,7 +30,7 @@ const useCourse = (): UseCourseReturns => {
     } catch (error) {
       console.log(error);
       toast.error("An error occured while fetching courses");
-      return undefined;
+      return null;
     }
   };
 
@@ -41,7 +41,7 @@ const useCourse = (): UseCourseReturns => {
     } catch (error) {
       console.log(error);
       toast.error("An error occured while fetching course");
-      return undefined;
+      return null;
     }
   };
 

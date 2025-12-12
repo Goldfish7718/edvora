@@ -16,11 +16,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import { useMediaQuery } from "usehooks-ts";
 import useCourse from "@/hooks/useCourse";
 
 function NewCourseTrigger({ children }: { children: React.ReactNode }) {
-  const matches = useMediaQuery("(min-width: 768px)");
   const [open, setOpen] = useState(false);
 
   const [form, setForm] = useState({
@@ -115,30 +113,16 @@ function NewCourseTrigger({ children }: { children: React.ReactNode }) {
     </section>
   );
 
-  if (matches) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>New Course</DialogTitle>
-          </DialogHeader>
-          {content}
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>New Course</DrawerTitle>
-        </DrawerHeader>
-        <div className="p-4">{content}</div>
-      </DrawerContent>
-    </Drawer>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>New Course</DialogTitle>
+        </DialogHeader>
+        {content}
+      </DialogContent>
+    </Dialog>
   );
 }
 
