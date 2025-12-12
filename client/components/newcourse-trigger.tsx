@@ -9,16 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "./ui/drawer";
 import useCourse from "@/hooks/useCourse";
+import { Spinner } from "./ui/spinner";
 
-function NewCourseTrigger({ children }: { children: React.ReactNode }) {
+type NewCourseTriggerProps = {
+  children: React.ReactNode;
+  onCreate: () => void;
+};
+
+function NewCourseTrigger({ children, onCreate }: NewCourseTriggerProps) {
   const [open, setOpen] = useState(false);
 
   const [form, setForm] = useState({
@@ -38,17 +37,18 @@ function NewCourseTrigger({ children }: { children: React.ReactNode }) {
     setForm((s) => ({ ...s, [name]: value }));
   };
 
-  const handleSubmit = async (e?: React.FormEvent) => {
+  const handleSubmit = async () => {
     try {
       setIsLoading(true);
       const { category, description, instructor, title } = form;
 
-      requestAddCourse(title, description, instructor, category);
-      setOpen(false);
+      await requestAddCourse(title, description, instructor, category);
+      await onCreate();
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
+      setOpen(false);
     }
   };
 
@@ -107,7 +107,13 @@ function NewCourseTrigger({ children }: { children: React.ReactNode }) {
           Cancel
         </Button>
         <Button onClick={handleSubmit} disabled={isLoading}>
-          {isLoading ? "Creating..." : "Create course"}
+          {isLoading ? (
+            <>
+              <Spinner /> Creating...
+            </>
+          ) : (
+            "Create course"
+          )}
         </Button>
       </div>
     </section>

@@ -11,7 +11,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { toast } from "sonner";
 
 export type UserType = {
   id: number;
@@ -24,26 +23,24 @@ export type UserType = {
 export default function AdminPanel() {
   const [users, setUsers] = useState<UserType[] | null>([]);
   const [courses, setCourses] = useState<CourseType[] | null>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { requestUsers } = useUser();
   const { requestGetCourses, requestCourseDelete } = useCourse();
 
   const handleDelete = async (courseId: number) => {
     try {
-      await toast.promise(() => requestCourseDelete(courseId), {
-        loading: "Deleting course...",
-        success: () => "Course deleted",
-        error: (err) => {
-          const msg = "Delete failed";
-          return msg;
-        },
-      });
+      await requestCourseDelete(courseId);
 
-      const newCourses = await requestGetCourses();
-      setCourses(newCourses);
+      await updateCourses();
     } catch (err) {
       console.error("delete failed", err);
     }
+  };
+
+  const updateCourses = async () => {
+    const newCourses = await requestGetCourses();
+    setCourses(newCourses);
   };
 
   useEffect(() => {
@@ -65,7 +62,7 @@ export default function AdminPanel() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-semibold">Admin Panel</h1>
-          <NewCourseTrigger>
+          <NewCourseTrigger onCreate={updateCourses}>
             <Button variant="default">New Course</Button>
           </NewCourseTrigger>
         </div>

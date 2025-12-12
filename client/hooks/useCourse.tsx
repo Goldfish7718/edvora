@@ -10,7 +10,7 @@ type UseCourseReturns = {
     instructor: string,
     category: string
   ) => void;
-  requestCourseDelete: (courseId: number) => Promise<any>;
+  requestCourseDelete: (courseId: number) => void;
 };
 
 export type CourseType = {
@@ -68,8 +68,14 @@ const useCourse = (): UseCourseReturns => {
     }
   };
 
-  const requestCourseDelete = (courseId: number) => {
-    return apiInstance.delete(`/courses/${courseId}`);
+  const requestCourseDelete = async (courseId: number) => {
+    try {
+      await apiInstance.delete(`/courses/${courseId}`);
+      toast.success("Course Deleted");
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   const hooks = {
