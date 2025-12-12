@@ -27,9 +27,9 @@ const useCourse = (): UseCourseReturns => {
     try {
       const res = await apiInstance.get("/courses");
       return res.data.courses as CourseType[];
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured while fetching courses");
+      toast.error(error.response.data.message);
       return null;
     }
   };
@@ -38,9 +38,9 @@ const useCourse = (): UseCourseReturns => {
     try {
       const res = await apiInstance.get(`/courses/${id}`);
       return res.data.course as CourseType;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured while fetching course");
+      toast.error(error.response.data.message);
       return null;
     }
   };
@@ -62,9 +62,9 @@ const useCourse = (): UseCourseReturns => {
       });
 
       toast.success("Course created successfully");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured while creating course");
+      toast.error(error.response.data.message);
     }
   };
 

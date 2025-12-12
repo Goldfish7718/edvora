@@ -30,10 +30,10 @@ export default function useUser(): UseUserReturns {
       console.log(res.data);
       setUser(res.data.user);
       toast.success("Login successful");
-      router.push("/dashboard");
-    } catch (error) {
+      router.push("/courses");
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -54,10 +54,10 @@ export default function useUser(): UseUserReturns {
       console.log(res.data);
       setUser(res.data.user);
       toast.success("Sign up successful");
-      router.push("/dashboard");
-    } catch (error) {
+      router.push("/courses");
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -65,7 +65,7 @@ export default function useUser(): UseUserReturns {
     try {
       const res = await apiInstance.get("/users/current");
       setUser(res.data.user);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
     }
   };
@@ -74,8 +74,9 @@ export default function useUser(): UseUserReturns {
     try {
       const res = await apiInstance.get(`/users/profile/${userId}`);
       return res.data.profile as ProfileDataType;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast.error(error.response.data.message);
       return null;
     }
   };
@@ -86,9 +87,9 @@ export default function useUser(): UseUserReturns {
       router.push("/");
       toast.success("Logged out");
       requestCurrentUser();
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("Error logging out");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -96,9 +97,9 @@ export default function useUser(): UseUserReturns {
     try {
       const res = await apiInstance.get("/users");
       return res.data.users as UserType[];
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("Error Fetching users");
+      toast.error(error.response.data.message);
       return null;
     }
   };

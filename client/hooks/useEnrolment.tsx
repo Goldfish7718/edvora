@@ -19,9 +19,9 @@ const useEnrolment = (): UseEnrolmentReturns => {
 
       console.log(res.data);
       toast.success("Successfully Enrolled");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured while Enrolling");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -36,9 +36,9 @@ const useEnrolment = (): UseEnrolmentReturns => {
 
       console.log(res.data);
       toast.success("Successfully Unenrolled");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("An error occured");
+      toast.error(error.response.data.message);
     }
   };
 

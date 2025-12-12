@@ -148,7 +148,7 @@ export default function ProfilePage() {
                   variant="outline"
                   className="w-full bg-transparent"
                   asChild>
-                  <Link href="/dashboard">Continue Learning</Link>
+                  <Link href="/courses">Continue Learning</Link>
                 </Button>
 
                 {/* Delete Account Button */}
